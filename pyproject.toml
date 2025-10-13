@@ -1,6 +1,6 @@
 [project]
-name = "fluxion"
-version = "0.1.0"
+name = "Fluxion"
+version = "0.0.1a"
 description = "Add your description here"
 requires-python = ">=3.13"
 dependencies = []
