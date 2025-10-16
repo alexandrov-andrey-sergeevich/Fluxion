@@ -83,7 +83,7 @@ class Injector(ABC):
     @abstractmethod
     def geometric_characteristics_injector(self) -> float:
         """Геометрическую характеристику форсунки"""
-        raise NotImplementedError("Не выбран тип форсунки для расчета")
+        raise NotImplementedError('Не выбран тип форсунки для расчета')
 
     @cached_property
     def equivalent_geometric_characteristic_injector(self) -> float:

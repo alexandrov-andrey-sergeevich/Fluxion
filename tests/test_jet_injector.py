@@ -53,40 +53,43 @@ class TestGasInjector:
         gas_injector = GasJetInjector(
             density=5.0,
             diameter=0.005,
-            length=0.010,
+            length=0.01,
             mass_flow_rate=0.1,
-            viscosity=2e-5,
-            combustion_pressure=5e6,
-            pressure_drop_internal_circuit=0.5e6,
+            viscosity=0.00002,
+            combustion_pressure=5_000_000,
+            pressure_drop_internal_circuit=500_000,
             gas_constant_gen_gas=300,
             temperature_gen_gas=800,
             entropy_expansion_ratio=1.2,
         )
         return gas_injector
 
-    def test_injector_nozzle_area(self, liquid_jet_injector):
-        assert liquid_jet_injector.injector_nozzle_area == pytest.approx(0)
+    def test_injector_nozzle_area(self, gas_jet_injector):
+        assert gas_jet_injector.injector_nozzle_area == pytest.approx(1.9634954084936e-05)
 
-    def test_reynolds_number(self, liquid_jet_injector):
-        assert liquid_jet_injector.reynolds_number == pytest.approx(0)
+    def test_reynolds_number(self, gas_jet_injector):
+        assert gas_jet_injector.reynolds_number == pytest.approx(1273239.5447351600)
 
-    def test_average_speed(self, liquid_jet_injector):
-        assert liquid_jet_injector.average_speed == pytest.approx(0)
+    def test_average_speed(self, gas_jet_injector):
+        assert gas_jet_injector.average_speed == pytest.approx(222.2381751)
 
-    def test_relative_length_injector(self, liquid_jet_injector):
-        assert liquid_jet_injector.relative_length_injector == pytest.approx(0)
+    def test_relative_length_injector(self, gas_jet_injector):
+        assert gas_jet_injector.relative_length_injector == pytest.approx(2)
 
     def test_injector_pressure(self, gas_jet_injector):
-        assert gas_jet_injector.injector_pressure == pytest.approx(0)
+        assert gas_jet_injector.injector_pressure == pytest.approx(5500000)
 
     def test_density_gen_gas(self, gas_jet_injector):
-        assert gas_jet_injector.density_gen_gas == pytest.approx(0)
+        assert gas_jet_injector.density_gen_gas == pytest.approx(22.91666667)
 
     def test_injector_flow_coefficient(self, gas_jet_injector):
-        assert gas_jet_injector.injector_flow_coefficient == pytest.approx(0)
+        assert gas_jet_injector.injector_flow_coefficient == pytest.approx(0.812959177)
 
     def test_injector_nozzle_area_outlet(self, gas_jet_injector):
-        assert gas_jet_injector.injector_nozzle_area_outlet == pytest.approx(0)
+        assert gas_jet_injector.injector_nozzle_area_outlet == pytest.approx(4.0646157686e-05)
 
     def test_diameter_injector(self, gas_jet_injector):
-        assert gas_jet_injector.diameter_injector == pytest.approx(0)
+        assert gas_jet_injector.diameter_injector == pytest.approx(0.007193907)
+
+    def test_discrepancy(self, gas_jet_injector):
+        assert gas_jet_injector.discrepancy == pytest.approx(0.304967367)

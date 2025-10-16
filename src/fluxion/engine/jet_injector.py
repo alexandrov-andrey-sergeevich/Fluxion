@@ -103,41 +103,17 @@ class GasJetInjector(Injector):
 
     @cached_property
     def injector_flow_coefficient(self) -> float:
-        return (
-            sqrt(1.23**2 + 232 * self.length / (self.reynolds_number * self.diameter))
-            / (116 * self.length)
-            * self.reynolds_number
-            * self.diameter
-        )
+        return ((sqrt(1.23 ** 2 + 232 * self.length / (self.reynolds_number * self.diameter)) - 1.23)
+                / (116 * self.length / (self.reynolds_number * self.diameter)))
 
     @cached_property
     def injector_nozzle_area_outlet(self) -> float:
-        return self.mass_flow_rate / (
-            self.injector_flow_coefficient
-            * self.density
-            * (self.combustion_pressure / self.injector_pressure)
-            ** (1 / self.entropy_expansion_ratio)
-            * sqrt(
-                2
-                * self.entropy_expansion_ratio
-                / (self.entropy_expansion_ratio - 1)
-                * self.gas_constant_gen_gas
-                * self.temperature_gen_gas
-                * (
-                    1
-                    - (self.combustion_pressure / self.injector_pressure)
-                    ** (
-                        (self.entropy_expansion_ratio - 1)
-                        / self.entropy_expansion_ratio
-                    )
-                )
-            )
-        )
+        return self.mass_flow_rate / (self.injector_flow_coefficient * self.density_gen_gas * (self.pressure_drop_internal_circuit / self.injector_pressure) ** (1 / self.entropy_expansion_ratio) * sqrt(2 * self.entropy_expansion_ratio / (self.entropy_expansion_ratio - 1) * self.gas_constant_gen_gas * self.temperature_gen_gas * (1 - (self.pressure_drop_internal_circuit / self.injector_pressure) ** ((self.entropy_expansion_ratio - 1) / self.entropy_expansion_ratio))))
 
     @cached_property
     def diameter_injector(self) -> float:
         return sqrt(4 * self.injector_nozzle_area_outlet / pi)
 
-
-if __name__ == "__main__":
-    ...
+    @cached_property
+    def discrepancy(self) -> float:
+        return (self.diameter_injector - self.diameter) / self.diameter_injector
